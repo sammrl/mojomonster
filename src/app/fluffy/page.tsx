@@ -43,7 +43,7 @@ export default function Fluffy() {
                 <Link href="/mingle" className='uppercase bg-[#5FB0FF] px-10 py-2 rounded-xl float-left text-xl hover:scale-110 transition shadow-lg'>Mingle</Link>
               </div>
               <div>
-                <Link href="#" className='uppercase bg-[#747474] px-10 py-2 rounded-xl float-right text-xl hover:scale-110 transition shadow-lg'>trade</Link>
+                <Link href="#" className='uppercase bg-[#747474] px-10 py-2 rounded-xl float-right text-xl hover:scale-110 transition shadow-lg'>Trade</Link>
               </div>
             </div>
           </div>
