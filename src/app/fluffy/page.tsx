@@ -7,7 +7,7 @@ export default function Fluffy() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-cover" style={{backgroundImage: "url(" + bgimage + ")" }}>
       <div className='absolute top-5 left-5 text-black'>
         <p className='text-4xl'>
-          "Fluff Trusty"
+          &quot;Fluff Trusty&quot;
         </p>
         <p className='text-center opacity-50'>
           Born on June 7 2023

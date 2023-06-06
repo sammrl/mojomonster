@@ -7,7 +7,7 @@ export default function Fluffy() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-cover" style={{backgroundImage: "url(" + bgimage + ")" }}>
       <div className='absolute top-5 right-5 text-white w-[300px]'>
         <p className='text-4xl'>
-          David's Monster Collection
+          David&apos;s Monster Collection
         </p>
         <p className='text-left opacity-60'>
           Drag and Drop a monster on to another monster’s island to interact!
