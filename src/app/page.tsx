@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Home() {
   const bgimage = './images/aether_desktop.svg'
@@ -15,16 +16,17 @@ export default function Home() {
           </div>
         </div>
         <div className='flex grid grid-cols-7 mx-auto mt-10'>
-          <div className='col-start-3 mx-4 cursor-pointer'>
+          <Link className='col-start-3 mx-4 cursor-pointer' href="/fluffy">
             <Image width={200} height={200} src="./images/red_cauldron.svg" alt="Red Cauldron" className='mx-auto hover:scale-110 transition' />
-          </div>
-          <div className='mx-4 cursor-pointer'>
+          </Link>
+          <Link className='mx-4 cursor-pointer' href="/fluffy">
             <Image width={200} height={200} src="./images/blue_cauldron.svg" alt="Red Cauldron" className='mx-auto hover:scale-110 transition' />
-          </div>
-          <div className='mx-4 cursor-pointer'>
+          </Link>
+          <Link className='mx-4 cursor-pointer' href="/fluffy">
             <Image width={200} height={200} src="./images/green_cauldron.svg" alt="Red Cauldron" className='mx-auto hover:scale-110 transition' />
-          </div>
-        </div>
+          </Link>
+        </div> 
+        <p className='text-center mt-2'>Spawn, Maintain, Trade & Collect all 100 monsters in the collection!</p>
       </div>
     </main>
   )
