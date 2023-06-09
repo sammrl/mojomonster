@@ -1,0 +1,110 @@
+infuse_monstrum( creator, monstrum_object, fire_cauldron_object);
+  0x1::debug::print(&token::name(monstrum_object));
+  let monster_object = object::convert<Monstrum<Ferocious, None>, Monster<Ferocious, Fire>>(monstrum_object);
+  0x1::debug::print(&token::name(monster_object));
+  infuse_monster( creator, monster_object, water_cauldron_object);
+  let monster_object = object::convert<Monster<Ferocious, Fire>, Monster<Ferocious, Water>>(monster_object);
+  infuse_monster( creator, monster_object, earth_cauldron_object);
+  let monster_object = object::convert<Monster<Ferocious, Water>, Monster<Ferocious, Earth>>(monster_object);
+  //std::debug::print(&view_object(monstrum_object));
+  0x1::debug::print(&token::name(monster_object));
+
+  let monstrum_image_uri = string::utf8(b"image.uri//");
+  let monstrum_constructor_ref = create_monstrum<Ferocious, None>(creator, string::utf8(b"Monstrum #2"), monstrum_image_uri);
+  let solid_water_monstrum_object = object::object_from_constructor_ref<Monstrum<Ferocious, None>>(&monstrum_constructor_ref);
+  0x1::debug::print(&token::name(solid_water_monstrum_object));
+
+  infuse_monstrum( creator, solid_water_monstrum_object, water_cauldron_object );
+  let solid_water_monstrum_object = object::convert<Monstrum<Ferocious, None>, Monster<Ferocious, Water>>(solid_water_monstrum_object);
+
+  0x1::debug::print(&token::name(solid_water_monstrum_object));
+
+
+  0x1::debug::print(&string_utils::format2(&b"monster #1 name: {}, object address: {}", token::name(monster_object), object::object_address(&monster_object)));
+  0x1::debug::print(&string_utils::format2(&b"monster #2 name: {}, object address: {}", token::name(solid_water_monstrum_object), object::object_address(&solid_water_monstrum_object)));
+
+  let bred_monster_addr = breed(
+   creator,
+   &monster_object,
+   &solid_water_monstrum_object,
+   string::utf8(b"uri")
+  );
+  0x1::debug::print(&bred_monster_addr);
+  //let bred_adaptive_fire_monster = object::address_to_object<Monster<Adaptive, Fire>>(bred_monster_addr);
+  //0x1::debug::print(&bred_adaptive_fire_monster);
+  //0x1::debug::print(&string_utils::format2(&b"monster #3 name: {}, object address: {}", token::name(bred_adaptive_fire_monster), bred_monster_addr));
+ }
+
+ fun create_monstrum<T0, T1>(
+  creator: &signer,
+  name: String,
+  token_uri: String,
+ ): ConstructorRef {
+  let constructor_ref = token::create_named_token(
+   creator,
+   string::utf8(COLLECTION_NAME),
+   string::utf8(TOKEN_DESCRIPTION),
+   name,
+   option::none(),
+   token_uri,
+  );
+  let token_signer = object::generate_signer(&constructor_ref);
+  let extend_ref = object::generate_extend_ref(&constructor_ref);
+  let mutator_ref = token::generate_mutator_ref(&constructor_ref);
+
+  move_to(
+   &token_signer,
+   Monstrum<T0, T1> {
+    jelly_core: JellyCore<T0> { },
+    joose_core: option::some(JooseCore<T1> { }),
+    extend_ref,
+    mutator_ref,
+   }
+  );
+
+  constructor_ref
+ }
+
+ fun create_cauldron<T>(
+  creator: &signer,
+  name: String,
+  token_uri: String,
+ ): ConstructorRef {
+  let constructor_ref = token::create_named_token(
+   creator,
+   string::utf8(COLLECTION_NAME),
+   string::utf8(TOKEN_DESCRIPTION),
+   name,
+   option::none(),
+   token_uri,
+  );
+  let token_signer = object::generate_signer(&constructor_ref);
+
+  move_to(
+   &token_signer,
+   Cauldron<T> {
+    joose_core: JooseCore<T> { },
+   }
+  );
+
+  constructor_ref
+ }
+
+ fun breed<T0, T1, T2, T3>(
+  creator: &signer,
+  _monster1: &Object<Monster<T0, T1>>,
+  _monster2: &Object<Monster<T2, T3>>,
+  token_uri: String,
+ ): address {
+
+  // struct Solid has drop, store { }
+  // struct Swift has drop, store { }
+  // struct Adaptive has drop, store { }
+  // struct Ferocious has drop, store { }
+
+  // struct Earth has drop, store { }
+  // struct Water has drop, store { }
+  // struct Fire has drop, store { }
+
+  let collection_addr = collection::create_collection_address(&0x1::signer::address_of(creator), &string::utf8(COLLECTION_NAME));
+  let _collection_object = object::address_to_object<Collection>(collection_addr);
