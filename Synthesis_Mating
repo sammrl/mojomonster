@@ -225,3 +225,69 @@ infuse_monstrum( creator, monstrum_object, fire_cauldron_object);
   let monstrum_object_resource = borrow_global<Monster<T0, T1>>(monstrum_addr);
   let extend_ref = &monstrum_object_resource.extend_ref;
   let token_signer = object::generate_signer_for_extending(extend_ref);
+
+
+if (type_info::type_of<T1>() == type_info::type_of<T2>()) {
+   return
+  } else {
+   // delete the Monster resource with T1 typing, capture old jelly_core and extend_ref
+   let Monster<T0, T1> {
+    jelly_core,
+    joose_core: _,
+    extend_ref,
+    mutator_ref,
+   } = move_from<Monster<T0, T1>>(monstrum_addr);
+
+   // create a new Monster resource with the T0, T2 typing and extend_ref into Monstrum at same object address.
+   move_to(
+    &token_signer,
+    Monster<T0, T2> {
+     jelly_core,
+     joose_core: JooseCore<T2> { },
+     extend_ref,
+     mutator_ref,
+    }
+   );
+   // the Monster<T0, T1> object has now been converted to a Monster<T0, T2> object
+  };
+
+  if (type_info::type_of<T0>() == type_info::type_of<Ferocious>()) {
+   //std::debug::print(&string::utf8(b"ferocious type!"));
+  };
+  if (exists<Monster<T0, T2>>(monstrum_addr)) {
+   let s = string_utils::debug_string(borrow_global<Monster<T0, T2>>(monstrum_addr));
+   std::debug::print(&s);
+  };
+
+  let cauldron_addr = object::object_address(&cauldron);
+  if (exists<Cauldron<T2>>(cauldron_addr)) {
+   let _s = string_utils::debug_string(borrow_global<Cauldron<T2>>(cauldron_addr));
+   //std::debug::print(&s);
+  }
+ }
+
+ fun rand_range(start: u64, end: u64): u64 {
+  assert!(end > start, 123456);
+  let now = 0x1::timestamp::now_microseconds();
+  let range = end - start;
+  assert!(now > range, 1234567);
+  let modulo = now % range;
+  range + modulo
+ }
+
+   // #[view]
+   // fun view_monster<Monster<T0, T1>: key>(obj: Object<Monster>): String acquires Aptoad, Clothing, Headwear, Glasses, Tongue, Fly {
+   //    let token_address = object::object_address(&obj);
+   //    //string::utils::to_string(borrow_global<T>(token_address))
+   //    string_utils::debug_string(borrow_global<Monstrum<T0, T1>>(token_address))
+   // }
+
+   #[test(owner = @monsters)]
+   fun test(
+      owner: &signer,
+   ) acquires Monstrum, Monster, Cauldron {
+      init_module(owner);
+   }
+
+
+}
